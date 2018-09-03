@@ -1,3 +1,11 @@
-<h1>Welcome to My Blog</h1>
-
-
+<br>
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to MY Blog!</h1>
+  <hr class="my-4">
+  <% if !logged_in? %>
+  <p class="lead text-center">
+    <%= link_to "Sign up now!", new_user_path, class: "btn btn-lg btn-primary" %>
+  </p>
+  <% end %>
+</div>
