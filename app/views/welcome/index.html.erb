@@ -16,5 +16,17 @@
 	<div class="col-md-12">
 		<%= render 'articles/article_form' %>
 	</div>
+  <div class="col-md-12">
+      <h3>Articles Feed</h3>
+      <% if @feed_items.any? %>
+        <ol class="articles">
+          <% @feed_items.each do |fe| %>
+          <%= render 'articles/article', article:fe %>
+          <% end %>
+        </ol>
+        <%= will_paginate @feed_items %>
+      <% end %>
+  </div>
+
 </div>
 <% end %>

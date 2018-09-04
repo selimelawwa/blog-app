@@ -1,0 +1,11 @@
+<h1> Favorites </h1>
+<% if @articles.any? %>
+        <ol class="articles">
+          <% @articles.each do |a| %>
+          <%= render 'articles/article', article:a %>
+          <% end %>
+        </ol>
+        <%= will_paginate @articles %>
+<% else %>
+No Favorites
+<% end %>

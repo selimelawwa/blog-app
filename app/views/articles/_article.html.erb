@@ -1,11 +1,11 @@
-
+<% if logged_in? %>
 <li class= "articles" id="article-<%= article.id %>">
   <span class="user"><%= link_to article.user.name, article.user %></span>
   <span class="title">
-    <%= article.title %>
+   Title: <%= article.title %>
   </span>
-  <p class="content">
-    <%= article.content %>
+  <p>
+    Content: <%= article.content %>
   </p>
   <span class="timestamp">
     Posted <%= time_ago_in_words(article.created_at) %> ago.
@@ -14,11 +14,16 @@
                                        data: { confirm: "You sure?" } %>
     <% end %>
   </span>
+  Favorite Count: 
     <strong id="fans" class="stat">
       <%= article.fans.count %>
     </strong>
 
   <span class="favorite">
-     <%= render 'favorite_form', article: article %>
+    
+     <%= render 'articles/favorite_form', article: article %>
+
   </span>
+   
 </li>
+<% end %>

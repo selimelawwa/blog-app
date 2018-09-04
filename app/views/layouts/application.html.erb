@@ -11,6 +11,10 @@
 
   <body>
     <%= render 'layouts/navbar' %>
+    <div class="danger"><%= flash[:danger] %></div>
+    <div class="success"><%= flash[:success] %></div>
+    <div class="notice"><%= flash[:notice] %></div>
+
     <div class="container">
       <%= yield %>
     </div>

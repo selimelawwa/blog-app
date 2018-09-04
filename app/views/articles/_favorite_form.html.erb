@@ -1,8 +1,10 @@
 <div id="follow_form">
+	
 	<% if !current_user.favors?(article) %>
-		<%= render 'favorite', article: article %>
+		<%= render 'articles/favorite', article: article %>
 	<% else %>
-		<%= render 'unfavorite', article: article %>
+		<%= render 'articles/unfavorite', article: article %>
 	<% end %>
+	
 </div>
 

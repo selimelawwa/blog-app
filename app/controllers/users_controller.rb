@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :edit, :update,:destroy,:following]
+  before_action :correct_user,   only: [:edit, :update,:destroy]
+
+
 
   # GET /users
   # GET /users.json
@@ -10,6 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @articles = @user.articles
   end
 
   # GET /users/new
@@ -52,6 +57,14 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: 'User was successfully destroyed.' 
   end
 
+  def following
+
+    @user  = current_user
+    @users = @user.following.paginate(page: params[:page])
+    render 'users/following'
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -62,4 +75,10 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
+
 end
