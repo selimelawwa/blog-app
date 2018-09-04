@@ -1,7 +1,8 @@
 <br>
 <br>
 <div class="jumbotron">
-  <h1 class="display-4">Welcome to MY Blog!</h1>
+  <h1 class="display-4">Welcome to MY Blog <%= "#{current_user.name}" if logged_in? %>! </h1>
+
   <hr class="my-4">
   <% if !logged_in? %>
   <p class="lead text-center">
@@ -9,3 +10,11 @@
   </p>
   <% end %>
 </div>
+
+<% if logged_in? %>
+<div class="row">
+	<div class="col-md-12">
+		<%= render 'articles/article_form' %>
+	</div>
+</div>
+<% end %>

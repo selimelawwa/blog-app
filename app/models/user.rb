@@ -1,5 +1,11 @@
 class User < ApplicationRecord
-	validates :name,  presence: true, length: { maximum: 50 }
+
+    has_many :articles, dependent: :destroy
+
+    has_many :favorites, dependent: :destroy
+    has_many :favorite_articles, through: :favorites, source: :article
+
+	  validates :name,  presence: true, length: { maximum: 50 }
   	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   	validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
@@ -35,6 +41,22 @@ class User < ApplicationRecord
 	    return false if digest.nil?
 	    BCrypt::Password.new(digest).is_password?(remember_token)
   	end
+
+    def favorite(article)
+      if self.favorite_articles.find_by(id: article.id).nil?
+        Favorite.create(user_id: self.id, article_id: article.id)
+      end
+    end
+
+    def unfavorite(article)
+      if !self.favorite_articles.find_by(id: article.id).nil?
+        Favorite.find_by(user_id: self.id, article_id: article.id).destroy
+      end
+    end
+
+    def favors?(article)
+      !self.favorite_articles.find_by(id: article.id).nil?
+    end
 
 
 	private
