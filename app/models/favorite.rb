@@ -1,10 +1,4 @@
 class Favorite < ApplicationRecord
-  belongs_to :user
-  belongs_to :article
-
-  validates :user, presence: true
-  validates :article, presence: true
-  
-
-
+	belongs_to :user
+  	belongs_to :article
 end
