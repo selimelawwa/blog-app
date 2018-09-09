@@ -3,31 +3,21 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update,:destroy,:following]
   before_action :correct_user,   only: [:edit, :update,:destroy]
 
-
-
-  # GET /users
-  # GET /users.json
   def index
     @users = User.all
   end
 
-  # GET /users/1
-  # GET /users/1.json
   def show
     @articles = @user.articles
   end
 
-  # GET /users/new
   def new
     @user = User.new
   end
 
-  # GET /users/1/edit
   def edit
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = User.new(user_params)
     if @user.save
@@ -39,8 +29,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
     if @user.update(user_params)
       flash[:info] = "Account Updated"
@@ -50,18 +38,14 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     redirect_to users_url, notice: 'User was successfully destroyed.' 
   end
 
   def following
-
     @user  = current_user
     @users = @user.following.paginate(page: params[:page])
-    render 'users/following'
   end
 
 

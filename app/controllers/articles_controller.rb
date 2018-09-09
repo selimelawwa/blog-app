@@ -3,9 +3,7 @@ class ArticlesController < ApplicationController
 	before_action :correct_user,   only: :destroy
 
     def index
-    	#@articles = current_user.articles
     	@articles = Article.all
-    	@favorite = Favorite.new
     end
 
 	def create
@@ -14,8 +12,6 @@ class ArticlesController < ApplicationController
 	      flash[:success] = "Article created!"
 	      redirect_back fallback_location: articles_path
 	    else
-	      #@feed_items = []
-	      #render 'static_pages/home'
 	      flash[:danger] = "Article NOT created!"
 	      redirect_back fallback_location: articles_path
 	    end
@@ -30,7 +26,7 @@ class ArticlesController < ApplicationController
 	private
 
 	    def article_params
-	      params.require(:article).permit(:title,:content)
+	      params.require(:article).permit(:title, :content)
 	    end
 	    
 	    def correct_user

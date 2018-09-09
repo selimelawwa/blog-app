@@ -1,5 +1,15 @@
 module SessionsHelper
 
+    def digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                      BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
+    end
+
+    def new_token
+        SecureRandom.urlsafe_base64
+    end
+
 	def log_in(user)
     	session[:user_id] = user.id
     end
@@ -22,15 +32,12 @@ module SessionsHelper
         cookies.delete(:remember_token)
     end
 
-
     def current_user
-    	#if logged in and user_id in session return current user
         if (user_id = session[:user_id])
             @current_user ||= User.find_by(id: user_id)
-        # if not loggeed in and user_id not in session, but user rememembered so will login to stroe user_id in session
         elsif (user_id = cookies.signed[:user_id])
             user = User.find_by(id: user_id)
-            if user && user.authenticated?(:remember, cookies[:remember_token])
+            if user && user.authenticated?(cookies[:remember_token])
                 log_in user
                 @current_user = user
             end
@@ -50,11 +57,8 @@ module SessionsHelper
         redirect_to(session[:forwarding_url] || default)
         session.delete(:forwarding_url)
     end
-
     # Stores the URL trying to be accessed.
     def store_location
         session[:forwarding_url] = request.original_url if request.get?
     end
-
-
 end

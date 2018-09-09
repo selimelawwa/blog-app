@@ -4,21 +4,12 @@ class FavoritesController < ApplicationController
 		@article = Article.find_by(id: params[:article_id])
 		current_user.favorite(@article)
 		redirect_back fallback_location: @articles
-		# respond_to do |f|
-  #     		f.html { redirect_to @articles }
-  #     		f.js
-  #   	end
-
 	end
 
 	def destroy
 		@article = Article.find_by(id: params[:article_id])
 		current_user.unfavorite(@article)
 		redirect_back fallback_location: @articles
-		# respond_to do |f|
-	 #      f.html { redirect_to @articles }
-	 #      f.js
-	 #    end
 	end
 
 	def index
